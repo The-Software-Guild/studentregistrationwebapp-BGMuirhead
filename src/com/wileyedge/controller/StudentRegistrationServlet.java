@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.wileyedge.model.Student;
+import com.wileyedge.service.IService;
+import com.wileyedge.service.StudentService;
 
 /**
  * Servlet implementation class StudentRegistratrionServlet
@@ -35,6 +37,9 @@ public class StudentRegistrationServlet extends HttpServlet {
 		Student s = new Student(name, Integer.parseInt(age), mobile, address);
 		System.out.println(s);
 		request.setAttribute("student", s);
+		
+		IService service = new StudentService();
+		service.saveStudent(s);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("./success.jsp");
 		rd.forward(request, response);
