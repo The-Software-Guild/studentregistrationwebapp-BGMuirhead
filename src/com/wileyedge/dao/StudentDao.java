@@ -9,17 +9,39 @@ import java.sql.SQLException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.wileyedge.model.Student;
 
-public class StudentDao implements IDao {
+public class StudentDao implements IDao{
+
+	
+	String driverName;
+	String dbPath;
+	String dbUsername;
+	String dbPassword;
+	
+	
+	
+	public StudentDao(String driverName, String dbPath, String dbUsername, String dbPassword) {
+		super();
+		this.driverName = driverName;
+		this.dbPath = dbPath;
+		this.dbUsername = dbUsername;
+		this.dbPassword = dbPassword;
+	}
 
 	private Connection openConnection() {
 		// Class.forName("com.mysql.cj.jdbc.Driver"); //Type 4 driver // Does not work
 		// for MySQL 5
 
+//		driverName = "com.mysql.jdbc.Driver";
+//		dbPath = "jdbc:mysql://localhost:3307/studentAssignment";
+//		dbUsername = "root";
+//		dbPassword = "root";
+		
+		
 		Connection con = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");// Type 4 driver is registered with DriverManager // works for MySQL
+			Class.forName(driverName);// Type 4 driver is registered with DriverManager // works for MySQL
 													// version 5
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3307/studentAssignment", "root", "root");
+			con = DriverManager.getConnection(dbPath, dbUsername, dbPassword);
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -120,5 +142,7 @@ public class StudentDao implements IDao {
 		return student;
 		
 	}
+
+	
 
 }

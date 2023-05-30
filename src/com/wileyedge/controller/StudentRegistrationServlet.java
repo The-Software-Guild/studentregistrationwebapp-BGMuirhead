@@ -3,10 +3,14 @@ package com.wileyedge.controller;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.context.ApplicationContext;
 
 import com.wileyedge.model.Student;
 import com.wileyedge.service.IService;
@@ -17,13 +21,18 @@ import com.wileyedge.service.StudentService;
  */
 public class StudentRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+
+	
+	
        
-    /**
+    
+	/**
      * @see HttpServlet#HttpServlet()
      */
     public StudentRegistrationServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
 	/**
@@ -38,9 +47,12 @@ public class StudentRegistrationServlet extends HttpServlet {
 		System.out.println(s);
 		request.setAttribute("student", s);
 		
-		IService service = new StudentService();
-		service.saveStudent(s);
 		
+		
+    	ServletContext ctx = getServletContext();
+		IService service = new StudentService(ctx);
+		service.saveStudent(s);
+
 		RequestDispatcher rd = request.getRequestDispatcher("./success.jsp");
 		rd.forward(request, response);
 	}
